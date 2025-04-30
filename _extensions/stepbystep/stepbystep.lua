@@ -130,7 +130,7 @@ function createSbsTask(div)
   local actionContent = {}
 
   table.insert(actionContent, pandoc.RawBlock("html", [[<div
-    :class="isCompleted ? 'sbs__task__completed': ''"
+
     class="sbs__task"
     x-data="{
       isCompleted: false,
@@ -140,12 +140,14 @@ function createSbsTask(div)
     }"
     x-on:reset-actions.window="isCompleted = false"
     >
-    <div class="badge__container">
-        <span class="sbs__badge" x-text="caption"></span>
+    <div class="badge__container" >
+        <span class="sbs__badge" :class="isCompleted ? 'sbs__badge__completed': ''" x-text="caption"></span>
     </div>
+    <div class="sbs__task__body" :class="isCompleted ? 'sbs__task__completed': ''">
 ]]))
   table.insert(actionContent, div)
   table.insert(actionContent, pandoc.RawBlock("html", [[
+    </div>
     <div class="sbs__completion__container" style="text-align: right">
       <div class="checkbox-wrapper-19">
         <input type="checkbox" id="]] .. labelId .. [[" x-model="isCompleted"/>

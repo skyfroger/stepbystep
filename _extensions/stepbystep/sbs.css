@@ -39,16 +39,22 @@
 }
 
 .sbs__task {
-    opacity: 1;
-    transition: border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
     border-radius: 0.5em;
     background: rgb(237, 250, 239);
     background: linear-gradient(0deg, #0f80f209 0%, #0f80f227 100%);
     padding: 0 0.7em 0.7em 0.7em;
     margin-bottom: 1.5em;
 }
+
+.sbs__task__body {
+    opacity: 1;
+    transition: border-color 0.2s ease-in-out, opacity 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
+}
+
 .sbs__task__completed {
     opacity: 0.7;
+    filter: grayscale(90%);
     border-color: var(--success-color);
 }
 .badge__container {
@@ -63,10 +69,14 @@
     padding: 0.2em;
     color: white;
     box-shadow: var(--q-shadow);
-    transition: background-color 0.15s ease-in-out;
+    width: 14em;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: background-color 0.15s ease-in-out, width 0.2s ease-out;
 }
-.sbs__task__completed.sbs__task .sbs__badge {
-    background-color: var(--success-color);
+.sbs__badge__completed {
+    width: 6em !important;
+    background-color: var(--success-color) !important;
 }
 
 /* Кнопка сброса шагов */
