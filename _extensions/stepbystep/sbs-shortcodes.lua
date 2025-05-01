@@ -43,6 +43,15 @@ local function escapeHtmlDataAttribute(str)
     end)
 end
 
+-- Для случайных ID
+function RandomStringID(length)
+    local res = ""
+    for i = 1, length do
+        res = res .. string.char(math.random(97, 122))
+    end
+    return res
+end
+
 return {
     ['sbsreset'] = function(args, kwargs, meta)
         local html = [[
@@ -146,5 +155,37 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
         ]] .. style .. [[]] .. hover .. [[></div>]]
 
         return pandoc.RawBlock('html', html)
+    end,
+    ['hs'] = function(args, kwargs, meta)
+        writeEnvironments()
+        local text = pandoc.utils.stringify(args[1])
+        local left = args[2]
+        local top = args[3]
+
+        if left == nil then
+            left = 0
+        end
+
+        if top == nil then
+            top = 0
+        end
+
+        local tipId = RandomStringID(8)
+
+        local hsHTML = [[<div id="]] ..
+            tipId .. [[" class="sbs__hotspot" style="left: ]] .. left .. [[%; top: ]] .. top .. [[%;">🖈</div>]]
+
+        hsHTML = hsHTML .. [[
+        <script>
+        tippy('#]] .. tipId .. [[', {
+            content: "]] .. text .. [[",
+            maxWidth: 300,
+            theme: 'light',
+            hideOnClick: false,
+        });
+        </script>
+        ]]
+
+        return pandoc.RawBlock('html', hsHTML)
     end
 }
