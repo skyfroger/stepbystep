@@ -159,6 +159,55 @@ function createSbsTask(div)
   return pandoc.Div(actionContent)
 end
 
+function createSbsHotspot(div)
+  writeEnvironments() -- подключаем библиотеки и стили
+  local hsContent = {}
+  local tipId = RandomStringID(8)
+
+  -- произвольный текст маркера
+  local marker = '🖈'
+  if div.attributes["marker"] ~= nil then
+    marker = div.attributes["marker"]
+  end
+
+  -- значение атрибута left
+  local left = 0
+  if div.attributes["left"] ~= nil then
+    left = div.attributes["left"]
+  end
+
+  -- значение атрибута top
+  local top = 0
+  if div.attributes["top"] ~= nil then
+    top = div.attributes["top"]
+  end
+
+  table.insert(hsContent, pandoc.RawBlock("html", [[
+  <div id="]] .. tipId ..
+    [[" class="sbs__hotspot" style="left: ]]
+    .. left .. [[%; top: ]] .. top .. [[%;">]] .. marker .. [[</div>]]
+  ))
+
+  table.insert(hsContent, pandoc.RawBlock("html", [[
+  <script>
+    tippy('#]] .. tipId .. [[', {
+        content: `]]
+  ))
+
+  table.insert(hsContent, div)
+
+  table.insert(hsContent, pandoc.RawBlock("html", [[`,
+        maxWidth: 400,
+        theme: 'sbshs',
+        allowHTML: true,
+        hideOnClick: false,
+    });
+  </script>]]
+  ))
+
+  return pandoc.Div(hsContent)
+end
+
 if quarto.doc.isFormat("html:js") then
   Div = function(div)
     if div.classes:includes("stepbystep") then -- если div содержит нужный стиль - обрабатываем разметку
@@ -171,6 +220,10 @@ if quarto.doc.isFormat("html:js") then
 
     if div.classes:includes("sbstask") then -- если div содержит нужный стиль - обрабатываем разметку
       return createSbsTask(div)
+    end
+
+    if div.classes:includes("sbshs") then -- если div содержит нужный стиль - обрабатываем разметку
+      return createSbsHotspot(div)
     end
 
     return nil

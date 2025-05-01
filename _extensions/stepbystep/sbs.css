@@ -389,3 +389,34 @@ span.scheme__element:hover {
         opacity: 0;
     }
 }
+
+.tippy-box[data-theme~="sbshs"] {
+    border-radius: 0.4rem;
+    background-color: var(--quarto-body-bg);
+    background: linear-gradient(
+        0deg,
+        rgb(255, 255, 255) 0%,
+        rgb(241, 249, 243) 100%
+    );
+    color: var(--quarto-body-color);
+    font-size: 0.9rem;
+    box-shadow: var(--input-shadow);
+}
+.tippy-box[data-theme~="sbshs"][data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: var(--quarto-body-bg);
+    box-shadow: var(--input-shadow);
+}
+.tippy-box[data-theme~="sbshs"][data-placement^="bottom"]
+    > .tippy-arrow::before {
+    border-bottom-color: var(--quarto-body-bg);
+    box-shadow: var(--input-shadow);
+}
+.tippy-box[data-theme~="sbshs"][data-placement^="left"] > .tippy-arrow::before {
+    border-left-color: var(--quarto-body-bg);
+    box-shadow: var(--input-shadow);
+}
+.tippy-box[data-theme~="sbshs"][data-placement^="right"]
+    > .tippy-arrow::before {
+    border-right-color: var(--quarto-body-bg);
+    box-shadow: var(--input-shadow);
+}

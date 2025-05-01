@@ -162,6 +162,13 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
         local left = args[2]
         local top = args[3]
 
+        -- произвольный текст маркера
+        local marker = pandoc.utils.stringify(kwargs["marker"])
+
+        if marker == '' then
+            marker = '🖈'
+        end
+
         if left == nil then
             left = 0
         end
@@ -173,14 +180,15 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
         local tipId = RandomStringID(8)
 
         local hsHTML = [[<div id="]] ..
-            tipId .. [[" class="sbs__hotspot" style="left: ]] .. left .. [[%; top: ]] .. top .. [[%;">🖈</div>]]
+            tipId .. [[" class="sbs__hotspot" style="left: ]] .. left ..
+            [[%; top: ]] .. top .. [[%;">]] .. marker .. [[</div>]]
 
         hsHTML = hsHTML .. [[
         <script>
         tippy('#]] .. tipId .. [[', {
             content: "]] .. text .. [[",
-            maxWidth: 300,
-            theme: 'light',
+            maxWidth: 250,
+            theme: 'sbshs',
             hideOnClick: false,
         });
         </script>
