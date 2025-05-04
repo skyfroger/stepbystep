@@ -404,19 +404,15 @@ span.scheme__element:hover {
 }
 .tippy-box[data-theme~="sbshs"][data-placement^="top"] > .tippy-arrow::before {
     border-top-color: var(--quarto-body-bg);
-    box-shadow: var(--input-shadow);
 }
 .tippy-box[data-theme~="sbshs"][data-placement^="bottom"]
     > .tippy-arrow::before {
     border-bottom-color: var(--quarto-body-bg);
-    box-shadow: var(--input-shadow);
 }
 .tippy-box[data-theme~="sbshs"][data-placement^="left"] > .tippy-arrow::before {
     border-left-color: var(--quarto-body-bg);
-    box-shadow: var(--input-shadow);
 }
 .tippy-box[data-theme~="sbshs"][data-placement^="right"]
     > .tippy-arrow::before {
     border-right-color: var(--quarto-body-bg);
-    box-shadow: var(--input-shadow);
 }
