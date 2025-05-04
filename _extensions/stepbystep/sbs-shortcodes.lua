@@ -190,6 +190,8 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
             maxWidth: 250,
             theme: 'sbshs',
             hideOnClick: false,
+            interactive: true,
+            interactiveBorder: 30,
         });
         </script>
         ]]

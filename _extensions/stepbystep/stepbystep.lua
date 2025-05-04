@@ -201,6 +201,8 @@ function createSbsHotspot(div)
         theme: 'sbshs',
         allowHTML: true,
         hideOnClick: false,
+        interactive: true,
+        interactiveBorder: 30,
     });
   </script>]]
   ))
