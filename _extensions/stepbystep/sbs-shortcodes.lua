@@ -65,6 +65,33 @@ return {
         ]]
         return pandoc.RawBlock('html', html)
     end,
+    ['sbsprogress'] = function(args, kwargs, meta)
+        writeEnvironments()
+
+        local g = pandoc.utils.stringify(args[1])
+
+        local html = [[
+        <div
+            class="sbs__progress"
+            x-data="{
+            currentLevel: 0,
+            maxLevel: 1,
+            init(){
+                $nextTick(() => {
+                    this.maxLevel = document.querySelectorAll('[data-group=]] .. g .. [[]').length;
+                });
+            }
+        }"
+        x-on:task-notification.window="if($event.detail.group === ']] .. g .. [['){
+            currentLevel = $event.detail.isCompleted ? currentLevel + 1 : currentLevel - 1;
+        }"
+        >
+           <span x-text="`${currentLevel}/${maxLevel}`"></span>
+           <meter min="0" :max="maxLevel" :value="currentLevel" ></meter>
+        </div>
+        ]]
+        return pandoc.RawBlock('html', html)
+    end,
     ['pin'] = function(args, kwargs, meta)
         writeEnvironments()
         local pinTypesTable = {

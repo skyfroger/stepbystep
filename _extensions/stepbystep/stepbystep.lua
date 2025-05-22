@@ -129,15 +129,27 @@ function createSbsTask(div)
   local labelId = RandomStringID(8)
   local actionContent = {}
 
+  local g = "" -- имя группы
+  if div.attributes["g"] ~= nil then
+    g = div.attributes["g"]
+  end
+
   table.insert(actionContent, pandoc.RawBlock("html", [[<div
 
     class="sbs__task"
+    data-group="]] .. g .. [["
     x-data="{
       isCompleted: false,
       get caption(){
         return this.isCompleted ? '👏 Сделано' : '✍️ Сделайте самостоятельно';
       }
     }"
+    x-init="$watch('isCompleted', value => {
+        $dispatch('task-notification', {
+            isCompleted: isCompleted,
+            group: ']] .. g .. [[',
+        });
+    });"
     x-on:reset-actions.window="isCompleted = false"
     >
     <div class="badge__container" >
