@@ -10,7 +10,8 @@ local function writeEnvironments()
             name = "alpine",
             version = "3.12",
             scripts = {
-                { path = "alpine.min.js", afterBody = "true", attribs = { defer = true } } },
+                { path = "sort-alpine.min.js", afterBody = "true" },
+                { path = "alpine.min.js", afterBody = "true"  } },
         })
         quarto.doc.add_html_dependency({
             name = "sbs",
