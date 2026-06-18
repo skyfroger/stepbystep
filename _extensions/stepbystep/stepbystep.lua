@@ -1,27 +1,6 @@
-local function writeEnvironments()
-  if quarto.doc.is_format("html:js") then
-    quarto.doc.add_html_dependency({
-      name = "alpine",
-      version = "3.12",
-      scripts = {
-        { path = "sort-alpine.min.js", afterBody = "true" },
-        { path = "alpine.min.js", afterBody = "true" } },
-    })
-    quarto.doc.add_html_dependency({
-      name = "sbs",
-      version = "1",
-      stylesheets = { "sbs.css" }
-    })
-  end
-end
-
-function RandomStringID(length)
-  local res = ""
-  for i = 1, length do
-    res = res .. string.char(math.random(97, 122))
-  end
-  return res
-end
+local path = require("pandoc.path")
+local ext_dir = path.directory(PANDOC_SCRIPT_FILE)
+local utils = dofile(ext_dir .. "/utils.lua")
 
 function createStep(stepNumber, all, header, stepTable)
   table.insert(all, pandoc.RawBlock('html', [[
@@ -34,9 +13,9 @@ function createStep(stepNumber, all, header, stepTable)
 end
 
 function createSbs(div)
-  writeEnvironments()        -- убеждаемся, что скрипты и стили добавлены в окружение
-  local scrollId = RandomStringID(8)
-  local tutorialContent = {} -- разметка всего туториала
+  utils.writeEnvironments()
+  local scrollId = utils.RandomStringID(8)
+  local tutorialContent = {}
   local currentStep = {}
   local currentHeader = nil
   local allSteps = {}
@@ -45,20 +24,16 @@ function createSbs(div)
 
   for i, el in ipairs(div.content) do
     if el.t == "Header" and currentHeader == nil then
-      -- Сохраняем первый заголовок
       currentHeader = el
     elseif el.t == "Header" and el.level == 3 then
-      -- Встретили очередной заголовок
       createStep(stepsCount, allSteps, currentHeader, currentStep)
       currentHeader = el
       currentStep = {}
       stepsCount = stepsCount + 1
     elseif el.t ~= "Header" and i == #div.content then
-      -- Сохраняем разметку последнего шага
       table.insert(currentStep, el)
       createStep(stepsCount, allSteps, currentHeader, currentStep)
     else
-      -- Сохраняем разметку одного шага
       table.insert(currentStep, el)
     end
   end
@@ -96,9 +71,9 @@ function createSbs(div)
 end
 
 function createSbsAction(div)
-  writeEnvironments() -- подключаем библиотеки и стили
+  utils.writeEnvironments()
 
-  local labelId = RandomStringID(8)
+  local labelId = utils.RandomStringID(8)
   local actionContent = {}
 
   table.insert(actionContent, pandoc.RawBlock("html", [[<div
@@ -125,12 +100,12 @@ function createSbsAction(div)
 end
 
 function createSbsTask(div)
-  writeEnvironments() -- подключаем библиотеки и стили
+  utils.writeEnvironments()
 
-  local labelId = RandomStringID(8)
+  local labelId = utils.RandomStringID(8)
   local actionContent = {}
 
-  local g = "" -- имя группы
+  local g = ""
   if div.attributes["g"] ~= nil then
     g = div.attributes["g"]
   end
@@ -142,7 +117,7 @@ function createSbsTask(div)
     x-data="{
       isCompleted: false,
       get caption(){
-        return this.isCompleted ? '👏 Сделано' : '✍️ Сделайте самостоятельно';
+        return this.isCompleted ? '👏 Выполнено' : '✍️ Сделайте самостоятельно';
       }
     }"
     x-init="$watch('isCompleted', value => {
@@ -173,23 +148,20 @@ function createSbsTask(div)
 end
 
 function createSbsHotspot(div)
-  writeEnvironments() -- подключаем библиотеки и стили
+  utils.writeEnvironments()
   local hsContent = {}
-  local tipId = RandomStringID(8)
+  local tipId = utils.RandomStringID(8)
 
-  -- произвольный текст маркера
   local marker = '🖈'
   if div.attributes["marker"] ~= nil then
     marker = div.attributes["marker"]
   end
 
-  -- значение атрибута left
   local left = 0
   if div.attributes["left"] ~= nil then
     left = div.attributes["left"]
   end
 
-  -- значение атрибута top
   local top = 0
   if div.attributes["top"] ~= nil then
     top = div.attributes["top"]
@@ -225,19 +197,19 @@ end
 
 if quarto.doc.isFormat("html:js") then
   Div = function(div)
-    if div.classes:includes("stepbystep") then -- если div содержит нужный стиль - обрабатываем разметку
+    if div.classes:includes("stepbystep") then
       return createSbs(div)
     end
 
-    if div.classes:includes("sbsaction") then -- если div содержит нужный стиль - обрабатываем разметку
+    if div.classes:includes("sbsaction") then
       return createSbsAction(div)
     end
 
-    if div.classes:includes("sbstask") then -- если div содержит нужный стиль - обрабатываем разметку
+    if div.classes:includes("sbstask") then
       return createSbsTask(div)
     end
 
-    if div.classes:includes("sbshs") then -- если div содержит нужный стиль - обрабатываем разметку
+    if div.classes:includes("sbshs") then
       return createSbsHotspot(div)
     end
 

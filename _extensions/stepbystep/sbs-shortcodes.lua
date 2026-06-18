@@ -1,57 +1,6 @@
-local function writeEnvironments()
-    if quarto.doc.is_format("html:js") then
-        quarto.doc.add_html_dependency({
-            name = "leader-line",
-            version = "1.0.7",
-            scripts = {
-                { path = "leader-line.min.js", afterBody = "true" } },
-        })
-        quarto.doc.add_html_dependency({
-            name = "alpine",
-            version = "3.12",
-            scripts = {
-                { path = "sort-alpine.min.js", afterBody = "true" },
-                { path = "alpine.min.js", afterBody = "true"  } },
-        })
-        quarto.doc.add_html_dependency({
-            name = "sbs",
-            version = "1",
-            stylesheets = { "sbs.css" }
-        })
-    end
-end
-
-function css_style(str)
-    local top, left, width, height = str:match("(%-?%d+%.?%d*) (%-?%d+%.?%d*) (%-?%d+%.?%d*) (%-?%d+%.?%d*)")
-    return string.format("style=\"top: %s%%; left: %s%%; width: %s%%; height: %s%%\"", top, left, width, height)
-end
-
-local function escapeHtmlDataAttribute(str)
-    local entities = {
-        ['"'] = "&quot;",
-        ["'"] = "&#39;",
-        ["<"] = "&lt;",
-        [">"] = "&gt;",
-        ["&"] = "&amp;",
-        [" "] = "&#32;",
-        ["\t"] = "&#9;",
-        ["\n"] = "&#10;",
-        ["\r"] = "&#13;"
-    }
-
-    return str:gsub('[&<>"\'\t\n\r ]', function(c)
-        return entities[c] or c
-    end)
-end
-
--- Для случайных ID
-function RandomStringID(length)
-    local res = ""
-    for i = 1, length do
-        res = res .. string.char(math.random(97, 122))
-    end
-    return res
-end
+local path = require("pandoc.path")
+local ext_dir = path.directory(PANDOC_SCRIPT_FILE)
+local utils = dofile(ext_dir .. "/utils.lua")
 
 return {
     ['sbsreset'] = function(args, kwargs, meta)
@@ -67,7 +16,7 @@ return {
         return pandoc.RawBlock('html', html)
     end,
     ['sbsprogress'] = function(args, kwargs, meta)
-        writeEnvironments()
+        utils.writeEnvironments()
 
         local g = pandoc.utils.stringify(args[1])
 
@@ -94,7 +43,7 @@ return {
         return pandoc.RawBlock('html', html)
     end,
     ['pin'] = function(args, kwargs, meta)
-        writeEnvironments()
+        utils.writeEnvironments()
         local pinTypesTable = {
             gpio = "gpio",
             power = "power",
@@ -103,7 +52,7 @@ return {
             gnd = "gnd",
             ground = "gnd"
         }
-        local pinName = escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
+        local pinName = utils.escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
         local hl = pandoc.utils.stringify(kwargs["hl"])
 
         local pinType = "gpio"
@@ -137,8 +86,8 @@ x-on:mouseleave="document.querySelector('#]] .. hl .. [[').classList.remove('sho
         return pandoc.RawBlock('html', html)
     end,
     ['element'] = function(args, kwargs, meta)
-        writeEnvironments()
-        local text = escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
+        utils.writeEnvironments()
+        local text = utils.escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
         local hl = pandoc.utils.stringify(kwargs["hl"])
 
         local hlHTML = [[]]
@@ -161,10 +110,11 @@ x-on:mouseleave="document.querySelector('#]] .. hl .. [[').classList.remove('sho
         return pandoc.RawBlock('html', html)
     end,
     ['hl'] = function(args, kwargs, meta)
-        local elementId = escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
+        utils.writeEnvironments()
+        local elementId = utils.escapeHtmlDataAttribute(pandoc.utils.stringify(args[1]))
         local pos = pandoc.utils.stringify(kwargs["pos"])
 
-        local style = css_style(pos)
+        local style = utils.css_style(pos)
         local hover = [["
 x-on:load.window="
     const start = document.getElementById(']] .. elementId .. [[');
@@ -185,7 +135,7 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
         return pandoc.RawBlock('html', html)
     end,
     ['hs'] = function(args, kwargs, meta)
-        writeEnvironments()
+        utils.writeEnvironments()
         local text = pandoc.utils.stringify(args[1])
         local left = args[2]
         local top = args[3]
@@ -205,7 +155,7 @@ x-on:mouseleave="document.querySelector('#hl-]] ..
             top = 0
         end
 
-        local tipId = RandomStringID(8)
+        local tipId = utils.RandomStringID(8)
 
         local hsHTML = [[<div id="]] ..
             tipId .. [[" class="sbs__hotspot" style="left: ]] .. left ..
