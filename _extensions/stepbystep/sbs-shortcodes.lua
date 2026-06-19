@@ -1,5 +1,3 @@
-local EXTENSION_NAME = "stepbystep"
-
 local utils = require("./utils")
 
 return {
@@ -10,7 +8,7 @@ return {
             x-data
             x-on:click="$dispatch('reset-actions');"
             >
-            ↻ Показать все шаги
+            ↻
         </button>
         ]]
         return pandoc.RawBlock('html', html)

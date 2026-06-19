@@ -1,6 +1,7 @@
 local EXTENSION_NAME = "stepbystep"
 
 local utils = require("./utils")
+local l10n  = require("./localize")
 
 function createStep(stepNumber, all, header, stepTable)
   table.insert(all, pandoc.RawBlock('html', [[
@@ -117,7 +118,7 @@ function createSbsTask(div)
     x-data="{
       isCompleted: false,
       get caption(){
-        return this.isCompleted ? '👏 Сделано' : '✍️ Сделайте самостоятельно';
+        return this.isCompleted ? '👏 ]].. l10n("done") ..[[' : '✍️ ]].. l10n("task") ..[[';
       }
     }"
     x-init="$watch('isCompleted', value => {
@@ -197,7 +198,9 @@ end
 
 
 local function render_elements(options)
-  quarto.log.output(options.lang)
+
+  l10n.load(options.lang)
+
   return {
     Div = function(div)
       if quarto.doc.isFormat("html:js") then
