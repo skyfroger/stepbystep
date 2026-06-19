@@ -1,6 +1,6 @@
-local path = require("pandoc.path")
-local ext_dir = path.directory(PANDOC_SCRIPT_FILE)
-local utils = dofile(ext_dir .. "/utils.lua")
+local EXTENSION_NAME = "stepbystep"
+
+local utils = require("./utils")
 
 return {
     ['sbsreset'] = function(args, kwargs, meta)

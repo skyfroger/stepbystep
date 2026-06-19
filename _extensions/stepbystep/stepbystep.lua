@@ -1,6 +1,6 @@
-local path = require("pandoc.path")
-local ext_dir = path.directory(PANDOC_SCRIPT_FILE)
-local utils = dofile(ext_dir .. "/utils.lua")
+local EXTENSION_NAME = "stepbystep"
+
+local utils = require("./utils")
 
 function createStep(stepNumber, all, header, stepTable)
   table.insert(all, pandoc.RawBlock('html', [[
@@ -117,7 +117,7 @@ function createSbsTask(div)
     x-data="{
       isCompleted: false,
       get caption(){
-        return this.isCompleted ? '👏 Выполнено' : '✍️ Сделайте самостоятельно';
+        return this.isCompleted ? '👏 Сделано' : '✍️ Сделайте самостоятельно';
       }
     }"
     x-init="$watch('isCompleted', value => {
@@ -195,24 +195,52 @@ function createSbsHotspot(div)
   return pandoc.Div(hsContent)
 end
 
-if quarto.doc.isFormat("html:js") then
-  Div = function(div)
-    if div.classes:includes("stepbystep") then
-      return createSbs(div)
-    end
 
-    if div.classes:includes("sbsaction") then
-      return createSbsAction(div)
-    end
+local function render_elements(options)
+  quarto.log.output(options.lang)
+  return {
+    Div = function(div)
+      if quarto.doc.isFormat("html:js") then
+        if div.classes:includes("stepbystep") then
+          return createSbs(div)
+        end
 
-    if div.classes:includes("sbstask") then
-      return createSbsTask(div)
-    end
+        if div.classes:includes("sbsaction") then
+          return createSbsAction(div)
+        end
 
-    if div.classes:includes("sbshs") then
-      return createSbsHotspot(div)
-    end
+        if div.classes:includes("sbstask") then
+          return createSbsTask(div)
+        end
 
-    return nil
-  end
+        if div.classes:includes("sbshs") then
+          return createSbsHotspot(div)
+        end
+
+        return nil
+      end
+    end
+  }
 end
+
+
+function Pandoc(doc)
+  -- default options
+  local options = {
+    lang = pandoc.utils.stringify(doc.meta.lang)
+  }
+
+  -- replace default option with local 
+  local globalOptions = doc.meta[EXTENSION_NAME]
+  if type(globalOptions) == "table" then
+    for k, v in pairs(globalOptions) do
+      options[k] = pandoc.utils.stringify(v)
+    end
+  end
+
+  return doc:walk(render_elements(options))
+end
+
+
+
+
