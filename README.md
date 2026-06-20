@@ -1,104 +1,129 @@
+[![English](https://img.shields.io/badge/lang-en-blue.svg)](README.md)
+[![Русский](https://img.shields.io/badge/lang-ru-red.svg)](README.ru.md)
+
 # Stepbystep
 
-В этом расширении собраны инструменты для организации заданий, последовательности выполнения упражнений, наглядного изображения элементов инструкции.
+**Stepbystep** is an extension for [Quarto](https://quarto.org/) that provides tools for organizing step-by-step tasks, tracking exercise progress, and visually styling instructions with image element highlighting.
 
-## Установка
+## Installation
+
+Add the extension to your Quarto project:
 
 ```bash
 quarto add skyfroger/stepbystep
 ```
 
-## Шаги задания и самостоятельная работа
+After installation, shortcodes and filters will be available once `stepbystep` is connected to the project or a specific page.
 
-Чтобы оформить набор действий в один шаг инструкции, их нужно обернуть в элемент с классом `.sbsaction`. Задания для самостоятельного выполнения размещаются внутри блока с классом `.sbstask`. Пример разметки:
+## Localization
+
+To localize the extension's UI elements, specify the `lang` attribute in YAML. English is used by default. Russian is also available:
+
+```yaml
+lang: ru
+```
+
+## Task Steps and Self-Study
+
+To format a set of actions as a single instruction step, wrap each action in a block with the `.sbsaction` class:
 
 ```markdown
 :::{.sbsaction}
-Первое действие.
+First action.
 :::
 
-Пояснения
+Explanations
 
 :::{.sbsaction}
-Второе действие.
+Second action.
 :::
+```
 
-Дальнейшие пояснения
+Tasks for independent completion are placed inside a block with the `.sbstask` class:
 
+```markdown
 :::{.sbstask}
-Что нужно сделать самостоятельно.
+What needs to be done independently.
 :::
 ```
 
-В каждом блоке есть галочка, с помощью которой учащийся может отметить выполненный им шаг задания. Это поможет отследить прогресс выполнения задания и не запутаться.
+Each block has a checkbox that the learner can use to mark a completed step. This helps track task progress.
 
-С помощью шорткода `sbsreset` добавляется кнопка, которая убирает все галочки с выполненных блоков:
+The `sbsreset` shortcode adds a button that removes all checkmarks from completed blocks:
 
 ```markdown
-{{< sbsreset >}}
+{{{< sbsreset >}}}
 ```
 
-## Подсветка элементов изображения
+## Image Element Highlighting
 
-Шорткоды `element` и `pin` создают элементы оформления, которые указывают на подсвечиваемые области изображения:
+The `element` and `pin` shortcodes create styling elements that point to highlighted areas of an image:
 
 ```markdown
-Подключите {{< element фоторезистор  hl="ldr" >}} одним из контактов к пину {{< pin 14  hl="pin14-02" >}}.
+Connect the {{{< element photoresistor hl="ldr" >}}} with one of its contacts to pin {{{< pin 14 hl="pin14-02" >}}}.
 ```
 
-В обоих шорткодах параметр `hl` содержит id элемента, который нужно подсветить. Параметр не обязателен.
+Parameters:
 
-Изображение, элементы которого нужно подсветить помещается в блок с классом `.hl-container`. Кроме изображения в контейнер помещаются шорткоды `hl` в которых указывается id этого элемента подсветки (см. параметр `hl` в шорткоде `element` или `pin`), а также параметр `pos`, который содержит значение атрибутов `top`, `left`, `width` и `height` разделённые пробелом. Значение атрибутов указывается в процентах.
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | Element name or pin number. |
+| `hl` | ID of the element to highlight. Optional parameter. |
 
-Полный пример разметки:
+The image whose elements need to be highlighted is placed in a block with the `.hl-container` class. Inside the container, `hl` shortcodes are placed:
 
 ```markdown
-Подключите {{< element фоторезистор  hl="ldr" >}} одним из контактов к пину {{< pin 14  hl="pin14-02" >}}.
-
 :::{.hl-container}
 
-![](image.png)
+![](images/img.png)
 
-{{< hl pin14-02 pos="39 75.3 3 5" >}}
+{{{< hl pin14-02 pos="39 75.3 3 5" >}}}
 
-{{< hl ldr pos="56 22.3 18 11" >}}
+{{{< hl ldr pos="56 22.3 18 11" >}}}
 
 :::
 ```
 
-Если подвести мышь к элементу, пину или элементу изображения, появится стрелка.
+Parameters of the `hl` shortcode:
 
-Имена идентификаторов в параметре `hl` и в соответствующем шорткоде должны быть уникальными. Иначе стрелки и подсветка будут работать неправильно.
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | ID of the highlight element (must match the `hl` parameter in the `element` or `pin` shortcode). |
+| `pos` | Values of the `top`, `left`, `width`, and `height` attributes, separated by spaces. Specified in percentages. |
 
-## Хотспот
+> **Important:** identifier names in the `hl` parameter and in the corresponding shortcode must be unique. Otherwise, arrows and highlighting will not work correctly.
 
-Шорткод `hs` позволяет добавить активную точку с всплывающей подсказкой на изображение:
+## Hotspot (Interactive Points)
+
+The `hs` shortcode allows you to add an active point with a tooltip popup to an image:
 
 ```markdown
-{{{< hs "Текст подсказки" left top marker="1" >}}}
+{{{< hs "Tooltip text" left top marker="1" >}}}
 ```
 
-Параметры шорткода:
+Parameters:
 
-- текст подсказки;
-- относительный отступ слева от края изображения;
-- относительный отступ сверху от края изображения;
-- `marker` - текст внутри маркера; значение обязательно берётся **в кавычки**.
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | Tooltip text. |
+| `left` | Relative offset from the left edge of the image (in percentages). |
+| `top` | Relative offset from the top edge of the image (in percentages). |
+| `marker` | Text inside the marker. The value must be enclosed in **quotes**. |
 
-Пример разметки:
+A block with the `.sbshs` class allows you to place arbitrary markup inside a hotspot, including code blocks. Used inside `.hl-container`:
 
 ````markdown
 :::{.hl-container}
 
-![](image.png)
+![](images/img.png)
 
-{{{< hs "Светодиод с резистором, ограничивающим ток." 73 66 marker="1" >}}}
+{{{< hs "LED with a current-limiting resistor." 73 66 marker="1" >}}}
 
-{{{< hs "Фоторезистор меняет своё сопротивление в зависимости от уровня освещённости" 19.5 55 >}}}
+{{{< hs "The photoresistor changes its resistance depending on the light level." 19.5 55 >}}}
 
 :::{.sbshs left=45 top=20 marker=2}
 
-Следующий код включит светодиод:
+The following code will turn on the LED:
 
 ```python
 from machine import Pin
@@ -110,3 +135,11 @@ led.on()
 
 :::
 ````
+
+## Markup Tips
+
+1. **Identifier uniqueness.** Names in the `hl` parameter of the `element`, `pin`, and `hl` shortcodes must be unique.
+2. **Percentage coordinates.** The `pos` parameter in the `hl` shortcode and the `left`/`top` attributes in `hs`/`sbshs` are specified as percentages relative to the image dimensions.
+3. **Quotes for marker.** The `marker` parameter value in the `hs` shortcode must be enclosed in quotes, even if it is a number.
+4. **Container nesting.** For `sbshs` with code, use 4 colons (`::::`) for the outer block to avoid conflicts with inner blocks of 3 colons (`:::`).
+5. **Filter in YAML.** Don't forget to add `filters: - stepbystep` to the document header.

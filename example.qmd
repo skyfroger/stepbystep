@@ -1,31 +1,119 @@
 ---
-title: "Формирующее оценивание"
-lang: ru
+title: "Stepbystep"
+lang: en
+format:
+  html:
+    toc: true
+    toc-depth: 3
 filters:
   - stepbystep
 ---
 
+**Stepbystep** is an extension for [Quarto](https://quarto.org/) that provides tools for organizing step-by-step tasks, tracking exercise progress, and visually styling instructions with image element highlighting.
+
+
+## Installation
+
+Add the extension to your Quarto project:
+
+```bash
+quarto add skyfroger/stepbystep
+```
+
+After installation, shortcodes and filters will be available once `stepbystep` is connected to the project or a specific page (as in the YAML header of this document).
+
+
+## Task Steps and Self-Study
+
+### Action Blocks (`sbsaction`)
+
+To format a set of actions as a single instruction step, wrap each action in a block with the `.sbsaction` class.
+
+**Demo:**
+
 :::{.sbsaction}
-Первое действие.
+First action.
 :::
 
-Пояснения
+Explanations
 
 :::{.sbsaction}
-Второе действие.
+Second action.
 :::
 
-Дальнейшие пояснения
+Further explanations
+
+### Self-Study Blocks (`sbstask`)
+
+Tasks for independent completion are placed inside a block with the `.sbstask` class.
+
+**Demo:**
 
 :::{.sbstask}
-Что нужно сделать самостоятельно.
+What needs to be done independently.
 :::
 
-Подключите {{< element фоторезистор  hl="ldr" >}} одним из контактов к пину {{< pin 14  hl="pin14-02" >}}.
+### Progress Tracking
+
+Each `.sbsaction` and `.sbstask` block has a checkbox that the learner can use to mark a completed step. This helps track task progress and avoid confusion.
+
+### Reset Button (`sbsreset`)
+
+The `sbsreset` shortcode adds a button that removes all checkmarks from completed blocks.
+
+**Syntax:**
+
+```markdown
+{{{< sbsreset >}}}
+```
+
+**Demo:**
+
+{{< sbsreset >}}
+
+
+## Image Element Highlighting
+
+The extension allows you to create interactive links to image elements with highlighting of corresponding areas on hover.
+
+### Shortcodes `element` and `pin`
+
+These shortcodes create styling elements that point to highlighted areas of an image.
+
+**Syntax:**
+
+```markdown
+{{{< element name hl="id" >}}}
+{{{< pin number hl="id" >}}}
+```
+
+**Parameters:**
+
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | Element name or pin number. |
+| `hl` | ID of the element to highlight. Optional parameter. |
+
+**Demo:**
+
+Connect the {{< element photoresistor hl="ldr" >}} with one of its contacts to pin {{< pin 14 hl="pin14-02" >}}.
+
+### Highlight Container (`hl-container`)
+
+The image whose elements need to be highlighted is placed in a block with the `.hl-container` class. Inside the container, `hl` shortcodes are placed that define the highlight areas.
+
+**Shortcode `hl`:**
+
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | ID of the highlight element (must match the `hl` parameter in the `element` or `pin` shortcode). |
+| `pos` | Values of the `top`, `left`, `width`, and `height` attributes, separated by spaces. Specified in percentages. |
+
+**Demo:**
 
 :::{.hl-container}
 
-![](images/image-20240827155913754.png)
+![](images/img.png)
 
 {{< hl pin14-02 pos="39 75.3 3 5" >}}
 
@@ -33,17 +121,94 @@ filters:
 
 :::
 
+
+### Full Markup Example
+
+```markdown
+Connect the {{{< element photoresistor hl="ldr" >}}} with one of its contacts to pin {{{< pin 14 hl="pin14-02" >}}}. 
+
 :::{.hl-container}
 
-![](images/image-20240827155913754.png)
+![](images/img.png)
 
-{{< hs "Светодиод с резистором, ограничивающим ток." 73 66 marker="1" >}}
+{{{< hl pin14-02 pos="39 75.3 3 5" >}}}
 
-{{< hs "Фоторезистор меняет своё сопротивление в зависимости от уровня освещённости" 19.5 55 >}}
+{{{< hl ldr pos="56 22.3 18 11" >}}}
+
+:::
+```
+
+:::{.callout-caution title="Identifiers"}
+Identifier names in the `hl` parameter and in the corresponding shortcode must be unique. Otherwise, arrows and highlighting will not work correctly.
+:::
+
+If you hover over an element, pin, or image element, an arrow will appear connecting the text to the area on the image.
+
+## Hotspot (Interactive Points)
+
+The `hs` shortcode allows you to add an active point with a tooltip popup to an image.
+
+**Syntax:**
+
+```markdown
+{{{< hs "Tooltip text" left top marker="1" >}}}
+```
+
+**Parameters:**
+
+| Parameter | Description |
+|-----------|-------------|
+| *(first argument)* | Tooltip text. |
+| `left` | Relative offset from the left edge of the image (in percentages). |
+| `top` | Relative offset from the top edge of the image (in percentages). |
+| `marker` | Text inside the marker. The value must be enclosed in **quotes**. |
+
+**Demo:**
+
+:::: {.hl-container}
+![](images/img.png)
+
+{{< hs "LED with a current-limiting resistor." 73 66 marker="1">}}
+
+{{< hs "The photoresistor changes its resistance depending on the light level." 19.5 55 >}}
+
+::: {.sbshs left="45" top="20" marker="2"}
+The following code will turn on the LED:
+
+```python
+from machine import Pin
+led = Pin(12, Pin.OUT)
+led.on()
+```
+:::
+::::
+
+### Hotspot Markup with Code (`sbshs`)
+
+A block with the `.sbshs` class allows you to place arbitrary markup inside a hotspot, including code blocks. Used inside `.hl-container`.
+
+**Block `.sbshs` parameters:**
+
+| Parameter | Description |
+|-----------|-------------|
+| `left` | Left offset (in percentages). |
+| `top` | Top offset (in percentages). |
+| `marker` | Text inside the marker. |
+
+**Full Markup Example:**
+
+````markdown
+:::{.hl-container}
+
+![](images/img.png)
+
+{{{< hs "LED with a current-limiting resistor." 73 66 marker="1" >}}}
+
+{{{< hs "The photoresistor changes its resistance depending on the light level." 19.5 55 >}}}
 
 :::{.sbshs left=45 top=20 marker=2}
 
-Следующий код включит светодиод:
+The following code will turn on the LED:
 
 ```python
 from machine import Pin
@@ -54,3 +219,12 @@ led.on()
 :::
 
 :::
+````
+
+## Markup Tips
+
+1. **Identifier uniqueness.** Names in the `hl` parameter of the `element`, `pin`, and `hl` shortcodes must be unique. Duplication will cause arrows and highlighting to malfunction.
+2. **Percentage coordinates.** The `pos` parameter in the `hl` shortcode and the `left`/`top` attributes in `hs`/`sbshs` are specified as percentages relative to the image dimensions. This ensures responsiveness when scaling.
+3. **Quotes for marker.** The `marker` parameter value in the `hs` shortcode must be enclosed in quotes, even if it is a number.
+4. **Container nesting.** The `.hl-container` block can contain both `hl` shortcodes and `hs`/`sbshs`. For `sbshs` with code, use 4 colons (`::::`) for the outer block to avoid conflicts with inner blocks of 3 colons (`:::`).
+5. **Filter in YAML.** Don't forget to add `filters: - stepbystep` to the document header, otherwise shortcodes and blocks will not work.
