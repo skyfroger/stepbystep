@@ -468,7 +468,7 @@ span.scheme__element:hover {
     margin-top: 1em;
     isolation: isolate;
     display: grid;
-    grid-template-columns: auto 45px;
+    grid-template-columns: auto 15px;
     grid-template-areas: "pbp-page navigation";
 }
 
@@ -486,6 +486,7 @@ span.scheme__element:hover {
 .steps-viewport {
     position: relative;
     overflow: hidden;
+    min-height: 300px;
     transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -520,6 +521,7 @@ span.scheme__element:hover {
 .pbp__menu {
     position: sticky;
     top: 25px;
+    min-height: 290px;
     z-index: 1;
     height: 35px;
     margin-top: 2.6em;

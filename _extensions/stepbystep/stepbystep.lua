@@ -18,9 +18,9 @@ local content = {}
   {[":class"] = string.format("{ active: current === %d, prev: current > %d }", stepNumber, stepNumber)}))
 end
 
-function createPbP(div)
+function createPbP(div, options)
+  quarto.log.output(options["headers-level"])
   utils.writeEnvironments()
-  local scrollId = utils.RandomStringID(8)
   local tutorialContent = {}
   local currentStep = {}
   local currentHeader = nil
@@ -28,12 +28,12 @@ function createPbP(div)
 
   local stepsCount = 0
 
-  
+  local headersLevel = tonumber(options["headers-level"])
 
   for i, el in ipairs(div.content) do
     if el.t == "Header" and currentHeader == nil then
       currentHeader = el
-    elseif el.t == "Header" and el.level == 3 then
+    elseif el.t == "Header" and el.level == headersLevel then
       table.insert(allSteps, createStep(stepsCount, currentHeader, currentStep))
       currentHeader = el
       currentStep = {}
@@ -48,7 +48,7 @@ function createPbP(div)
 
   -- Открывающий тег с буквальными x-data и x-ref
   table.insert(tutorialContent, pandoc.RawBlock("html", 
-    '<div x-data="pagebypage(' .. (stepsCount + 1) .. ')" x-ref="main" class="pbp">'
+    '<div x-data="pagebypage(' .. (stepsCount + 1) .. ','.. headersLevel ..')" x-ref="main" class="pbp">'
   ))
 
   -- Меню
@@ -68,11 +68,11 @@ function createPbP(div)
   table.insert(tutorialContent, pandoc.RawBlock("html", [[
   <div class="pbp__page">
       <div class="steps-viewport" :style="`height: ${viewportHeight}px`" x-ref="viewport">]]))
-      table.insert(tutorialContent, pandoc.Div(allSteps)) --!!!!!
+      table.insert(tutorialContent, pandoc.Div(allSteps))
       table.insert(tutorialContent, pandoc.RawBlock("html",
       [[</div>]]))
-  
-  
+
+
   table.insert(tutorialContent, pandoc.RawBlock("html", [[
       <div class="navigation">
           <div>
@@ -237,7 +237,7 @@ local function render_elements(options)
     Div = function(div)
       if quarto.doc.isFormat("html:js") then
         if div.classes:includes("pagebypage") then
-          return createPbP(div)
+          return createPbP(div, options)
         end
 
         if div.classes:includes("sbsaction") then
@@ -262,6 +262,7 @@ end
 function Pandoc(doc)
   -- default options
   local options = {
+    ["headers-level"] = 3,
     lang = pandoc.utils.stringify(doc.meta.lang)
   }
 
