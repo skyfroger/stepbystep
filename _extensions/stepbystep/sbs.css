@@ -7,12 +7,13 @@
     --text-color: #333;
     --border-radius: 0.25rem;
     --transition: 0.3s ease;
-    --hover-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    --hover-shadow:
+        rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
         rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    --q-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    --input-shadow: rgba(0, 0, 0, 0.4) 0px 1px 2px,
-        rgba(0, 0, 0, 0.3) 0px 3px 6px -2px,
+    --q-shadow:
+        rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    --input-shadow:
+        rgba(0, 0, 0, 0.4) 0px 1px 2px, rgba(0, 0, 0, 0.3) 0px 3px 6px -2px,
         rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
 }
 
@@ -31,7 +32,9 @@
 
 .sbs__data {
     opacity: 1;
-    transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition:
+        opacity 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
 }
 .sbs__completed {
     opacity: 0.5;
@@ -48,7 +51,9 @@
 
 .sbs__task__body {
     opacity: 1;
-    transition: border-color 0.2s ease-in-out, opacity 0.2s ease-in-out,
+    transition:
+        border-color 0.2s ease-in-out,
+        opacity 0.2s ease-in-out,
         filter 0.2s ease-in-out;
 }
 
@@ -72,7 +77,9 @@
     width: 14em;
     overflow: hidden;
     white-space: nowrap;
-    transition: background-color 0.15s ease-in-out, width 0.2s ease-out;
+    transition:
+        background-color 0.15s ease-in-out,
+        width 0.2s ease-out;
 }
 .sbs__badge__completed {
     width: 6em !important;
@@ -86,7 +93,9 @@
     color: white;
     padding: 0.3em;
     border-radius: var(--border-radius);
-    transition: box-shadow 0.5s ease, background-color 0.5s ease;
+    transition:
+        box-shadow 0.5s ease,
+        background-color 0.5s ease;
 }
 
 .sbs__button:hover {
@@ -255,7 +264,8 @@
 span.pin__data {
     cursor: pointer;
     line-height: 1.4rem;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    font-family:
+        SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
         "Courier New", monospace;
     padding: 0 7px;
     border-radius: 0.2em;
@@ -264,7 +274,9 @@ span.pin__data {
     margin-right: 3px;
     display: inline-block;
     transform: skew(-10deg);
-    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out,
+    transition:
+        box-shadow 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
         color 0.2s ease-in-out;
 }
 
@@ -294,7 +306,9 @@ span.scheme__element {
     color: #fff;
     margin-right: 3px;
     display: inline-block;
-    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out,
+    transition:
+        box-shadow 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
         color 0.2s ease-in-out;
 }
 
@@ -447,4 +461,98 @@ span.scheme__element:hover {
 .sbs__progress meter::-webkit-meter-optimum-value {
     background: var(--success-color);
     transition: width 0.4s ease;
+}
+
+.pbp {
+    width: 100%;
+    margin-top: 1em;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: auto 45px;
+    grid-template-areas: "pbp-page navigation";
+}
+
+.pbp__page {
+    grid-area: pbp-page;
+    position: relative;
+    z-index: 2;
+    padding: 1em;
+    border-radius: 0.5em;
+    box-shadow:
+        rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.steps-viewport {
+    position: relative;
+    overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.step.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+}
+
+.step.prev {
+    transform: translateX(-50px);
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    grid-area: navigation;
+}
+
+.pbp__menu {
+    position: sticky;
+    top: 25px;
+    z-index: 1;
+    height: 35px;
+    margin-top: 2.6em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+}
+
+.menu__item {
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 0.3em;
+    width: 30px;
+    height: 35px;
+    background-color: lightgray;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0 100%, 0 0);
+    /* clip-path: polygon(0% 0%, 50% 10%, 100% 0, 100% 100%, 0% 100%); */
+}
+.menu__item:hover {
+    width: 35px;
+}
+
+.menu__item.active {
+    background-color: #ffb399;
+    width: 40px;
+}
+
+.menu__item.prev {
+    background-color: #daf9de;
 }

@@ -3,6 +3,12 @@ local M = {}
 function M.writeEnvironments()
     if quarto.doc.is_format("html:js") then
         quarto.doc.add_html_dependency({
+            name = "components",
+            version = "1.0.0",
+            scripts = {
+                { path = "components.js" } },
+        })
+        quarto.doc.add_html_dependency({
             name = "leader-line",
             version = "1.0.7",
             scripts = {
