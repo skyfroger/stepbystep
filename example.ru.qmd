@@ -4,7 +4,6 @@ lang: ru
 format:
   html:
     toc: true
-    toc-depth: 3
 filters:
   - stepbystep
 stepbystep:
@@ -229,49 +228,197 @@ led.on()
 
 ## Постраничный туториал
 
+Блок `.pagebypage` позволяет разбить инструкцию на набор страниц-слайдов. Каждая страница начинается с заголовка настраиваемого уровня.
+
+### Настройка
+
+По умолчанию страницы разделяются по заголовкам третьего уровня (`###`). Уровень можно изменить через опцию `headers-level` в YAML-заголовке документа или в `_quarto.yml`:
+
+```yaml
+stepbystep:
+  headers-level: 4
+```
+
+### Разметка
+
+Оберните всё содержимое туториала в блок с классом `.pagebypage`. Каждая страница должна начинаться с заголовка заданного уровня:
+
+```markdown
+:::{.pagebypage}
+
+### Первая страница
+
+Содержимое первой страницы...
+
+:::{.sbsaction}
+Первое действие.
+:::
+
+### Вторая страница
+
+Содержимое второй страницы...
+
+:::{.sbstask}
+Задание для самостоятельной работы.
+:::
+
+:::
+```
+
+### Навигация
+
+Туториал предоставляет меню навигации с нумерованными индикаторами страниц и кнопками «Назад»/«Вперёд». Пройденные страницы помечаются визуально.
+
+### Совместимость с другими элементами
+
+Внутри `.pagebypage` можно использовать любые другие элементы stepbystep: `.sbsaction`, `.sbstask`, `.hl-container`, `element`, `pin`, `hs` и `sbshs`.
+
+### Практический пример: «Ваш первый калькулятор»
 
 :::{.pagebypage}
 
-#### Шаг 1
+#### Добро пожаловать в Python
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel tortor et felis accumsan pulvinar. Mauris ac sapien nisl. Donec pharetra libero vel nulla molestie iaculis. Etiam bibendum velit vel metus eleifend congue. Quisque ut felis tellus. Aliquam suscipit quis eros at lobortis. Donec auctor feugiat nibh a lobortis. Etiam iaculis metus at mauris pulvinar, quis accumsan libero semper. Fusce facilisis ex non eros placerat viverra. Nam sollicitudin luctus ultrices. Maecenas sed neque mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas et justo viverra, tempor justo posuere, porttitor sapien.
+Python — мощный и простой в изучении язык программирования. В этом туториале вы напишете свою первую программу-калькулятор.
 
-Cras efficitur vehicula nulla. Nam at nibh nunc. Vivamus in arcu nec quam eleifend malesuada sit amet pellentesque eros. Suspendisse eleifend ultricies porttitor. Duis nisi dui, interdum et odio nec, ornare mattis ex. Proin ornare vulputate nisl a vulputate. Sed turpis lorem, pretium vel turpis in, varius hendrerit ante. Donec ac nisl arcu. Donec ut hendrerit lectus.
+:::{.sbsaction}
+Откройте редактор кода ниже и внимательно прочитайте пример.
+:::
 
-Donec at orci nec ex lacinia sollicitudin. Aenean nunc ante, accumsan id sapien sed, lacinia euismod nisi. Donec sodales est a tristique convallis. Duis mattis, quam finibus placerat hendrerit, leo libero hendrerit quam, sed volutpat dolor enim eget justo. Quisque sapien leo, ultrices a dapibus et, sodales non libero. Integer eu vulputate tortor. Nunc dignissim mi quis libero bibendum, at sodales lectus sollicitudin. Curabitur eget lacus vitae sem faucibus porta. Cras ornare nisl sapien, nec blandit mauris eleifend eget. Quisque at nulla lectus. Pellentesque nec imperdiet elit. Fusce mattis velit dui, id fringilla mauris dignissim non. Nunc hendrerit, felis sit amet viverra pellentesque, odio mauris consectetur justo, at commodo est enim in quam. Pellentesque urna nibh, efficitur vel efficitur vel, molestie in ex. Cras nec nisl et massa luctus commodo.
+```python
+# Это комментарий — Python его игнорирует
+print("Привет, Python!")
+```
 
-Maecenas vel condimentum nunc. Ut sed nisi vitae erat malesuada semper in quis lacus. Nunc consequat ornare hendrerit. Aenean laoreet faucibus erat, non fermentum risus mattis quis. Pellentesque risus neque, vehicula ac interdum egestas, dapibus eget sapien. Vestibulum eleifend nunc risus, eget pharetra risus cursus vel. Sed quis commodo ipsum. Aliquam interdum nisl at consequat rutrum. Vivamus mi augue, ullamcorper a tellus eget, ultrices ultricies est. Cras ac nulla eu neque tincidunt consequat id sed nibh. Pellentesque ornare pulvinar nibh, nec sollicitudin dui venenatis eu. Sed hendrerit in est ac tempus. Integer mauris diam, ultrices vestibulum mi sed, sodales porta sapien.
+:::{.sbstask}
+Запустите код выше и посмотрите на результат.
+:::
 
-#### Шаг 2
+#### Переменные и числа
 
-Donec at orci nec ex lacinia sollicitudin. Aenean nunc ante, accumsan id sapien sed, lacinia euismod nisi. Donec sodales est a tristique convallis. Duis mattis, quam finibus placerat hendrerit, leo libero hendrerit quam, sed volutpat dolor enim eget justo. Quisque sapien leo, ultrices a dapibus et, sodales non libero. Integer eu vulputate tortor. Nunc dignissim mi quis libero bibendum, at sodales lectus sollicitudin. Curabitur eget lacus vitae sem faucibus porta. Cras ornare nisl sapien, nec blandit mauris eleifend eget. Quisque at nulla lectus. Pellentesque nec imperdiet elit. Fusce mattis velit dui, id fringilla mauris dignissim non. Nunc hendrerit, felis sit amet viverra pellentesque, odio mauris consectetur justo, at commodo est enim in quam. Pellentesque urna nibh, efficitur vel efficitur vel, molestie in ex. Cras nec nisl et massa luctus commodo.
+Переменные хранят данные для последующего использования. В Python переменную создают присваиванием значения через `=`.
 
-Maecenas vel condimentum nunc. Ut sed nisi vitae erat malesuada semper in quis lacus. Nunc consequat ornare hendrerit. Aenean laoreet faucibus erat, non fermentum risus mattis quis. Pellentesque risus neque, vehicula ac interdum egestas, dapibus eget sapien. Vestibulum eleifend nunc risus, eget pharetra risus cursus vel. Sed quis commodo ipsum. Aliquam interdum nisl at consequat rutrum. Vivamus mi augue, ullamcorper a tellus eget, ultrices ultricies est. Cras ac nulla eu neque tincidunt consequat id sed nibh. Pellentesque ornare pulvinar nibh, nec sollicitudin dui venenatis eu. Sed hendrerit in est ac tempus. Integer mauris diam, ultrices vestibulum mi sed, sodales porta sapien.
+:::{.sbsaction}
+Изучите, как переменные `a` и `b` хранят числа:
+:::
 
-Etiam pretium placerat sollicitudin. Nam tincidunt sit amet purus luctus semper. In at convallis turpis, non mollis lorem. Quisque sed euismod enim. Sed lobortis dui pulvinar tellus aliquet, et eleifend tellus sollicitudin. Maecenas tempus lectus ut eros posuere, et pellentesque dui tincidunt. Morbi tristique nibh non euismod aliquet. Quisque magna elit, sagittis ac eleifend nec, bibendum vitae metus. Sed posuere imperdiet pharetra. Fusce sollicitudin ipsum orci, in ullamcorper elit consequat vel. Vestibulum in lectus ultricies, pretium dui in, semper sem. Etiam sapien libero, maximus vitae lectus id, tristique feugiat metus. Donec vitae pharetra nisl, eget porta lectus. Integer non bibendum eros, a iaculis nulla.
+```python
+a = 15
+b = 4
 
-#### Шаг 3
+print("a =", a)
+print("b =", b)
+```
 
-Donec at orci nec ex lacinia sollicitudin. Aenean nunc ante, accumsan id sapien sed, lacinia euismod nisi. Donec sodales est a tristique convallis. Duis mattis, quam finibus placerat hendrerit, leo libero hendrerit quam, sed volutpat dolor enim eget justo. Quisque sapien leo, ultrices a dapibus et, sodales non libero. Integer eu vulputate tortor. Nunc dignissim mi quis libero bibendum, at sodales lectus sollicitudin. Curabitur eget lacus vitae sem faucibus porta. Cras ornare nisl sapien, nec blandit mauris eleifend eget. Quisque at nulla lectus. Pellentesque nec imperdiet elit. Fusce mattis velit dui, id fringilla mauris dignissim non. Nunc hendrerit, felis sit amet viverra pellentesque, odio mauris consectetur justo, at commodo est enim in quam. Pellentesque urna nibh, efficitur vel efficitur vel, molestie in ex. Cras nec nisl et massa luctus commodo.
+:::{.sbsaction}
+Python поддерживает стандартные арифметические операции:
+:::
 
-Maecenas vel condimentum nunc. Ut sed nisi vitae erat malesuada semper in quis lacus. Nunc consequat ornare hendrerit. Aenean laoreet faucibus erat, non fermentum risus mattis quis. Pellentesque risus neque, vehicula ac interdum egestas, dapibus eget sapien. Vestibulum eleifend nunc risus, eget pharetra risus cursus vel. Sed quis commodo ipsum. Aliquam interdum nisl at consequat rutrum. Vivamus mi augue, ullamcorper a tellus eget, ultrices ultricies est. Cras ac nulla eu neque tincidunt consequat id sed nibh. Pellentesque ornare pulvinar nibh, nec sollicitudin dui venenatis eu. Sed hendrerit in est ac tempus. Integer mauris diam, ultrices vestibulum mi sed, sodales porta sapien.
+```python
+a = 15
+b = 4
 
-Etiam pretium placerat sollicitudin. Nam tincidunt sit amet purus luctus semper. In at convallis turpis, non mollis lorem. Quisque sed euismod enim. Sed lobortis dui pulvinar tellus aliquet, et eleifend tellus sollicitudin. Maecenas tempus lectus ut eros posuere, et pellentesque dui tincidunt. Morbi tristique nibh non euismod aliquet. Quisque magna elit, sagittis ac eleifend nec, bibendum vitae metus. Sed posuere imperdiet pharetra. Fusce sollicitudin ipsum orci, in ullamcorper elit consequat vel. Vestibulum in lectus ultricies, pretium dui in, semper sem. Etiam sapien libero, maximus vitae lectus id, tristique feugiat metus. Donec vitae pharetra nisl, eget porta lectus. Integer non bibendum eros, a iaculis nulla.
+print("Сумма:", a + b)           # Сложение
+print("Разность:", a - b)        # Вычитание
+print("Произведение:", a * b)    # Умножение
+print("Частное:", a / b)         # Деление
+print("Степень:", a ** b)        # Возведение в степень
+```
 
-#### Шаг 4
+:::{.sbstask}
+Измените значения `a` и `b` на `20` и `3`, затем снова запустите код.
+:::
 
-Donec at orci nec ex lacinia sollicitudin. Aenean nunc ante, accumsan id sapien sed, lacinia euismod nisi. Donec sodales est a tristique convallis. Duis mattis, quam finibus placerat hendrerit, leo libero hendrerit quam, sed volutpat dolor enim eget justo. Quisque sapien leo, ultrices a dapibus et, sodales non libero. Integer eu vulputate tortor. Nunc dignissim mi quis libero bibendum, at sodales lectus sollicitudin. Curabitur eget lacus vitae sem faucibus porta. Cras ornare nisl sapien, nec blandit mauris eleifend eget. Quisque at nulla lectus. Pellentesque nec imperdiet elit. Fusce mattis velit dui, id fringilla mauris dignissim non. Nunc hendrerit, felis sit amet viverra pellentesque, odio mauris consectetur justo, at commodo est enim in quam. Pellentesque urna nibh, efficitur vel efficitur vel, molestie in ex. Cras nec nisl et massa luctus commodo.
+#### Ввод данных пользователем
 
-Maecenas vel condimentum nunc. Ut sed nisi vitae erat malesuada semper in quis lacus. Nunc consequat ornare hendrerit. Aenean laoreet faucibus erat, non fermentum risus mattis quis. Pellentesque risus neque, vehicula ac interdum egestas, dapibus eget sapien. Vestibulum eleifend nunc risus, eget pharetra risus cursus vel. Sed quis commodo ipsum. Aliquam interdum nisl at consequat rutrum. Vivamus mi augue, ullamcorper a tellus eget, ultrices ultricies est. Cras ac nulla eu neque tincidunt consequat id sed nibh. Pellentesque ornare pulvinar nibh, nec sollicitudin dui venenatis eu. Sed hendrerit in est ac tempus. Integer mauris diam, ultrices vestibulum mi sed, sodales porta sapien.
+Функция `input()` запрашивает у пользователя ввод данных. По умолчанию она возвращает **строку**.
 
-Etiam pretium placerat sollicitudin. Nam tincidunt sit amet purus luctus semper. In at convallis turpis, non mollis lorem. Quisque sed euismod enim. Sed lobortis dui pulvinar tellus aliquet, et eleifend tellus sollicitudin. Maecenas tempus lectus ut eros posuere, et pellentesque dui tincidunt. Morbi tristique nibh non euismod aliquet. Quisque magna elit, sagittis ac eleifend nec, bibendum vitae metus. Sed posuere imperdiet pharetra. Fusce sollicitudin ipsum orci, in ullamcorper elit consequat vel. Vestibulum in lectus ultricies, pretium dui in, semper sem. Etiam sapien libero, maximus vitae lectus id, tristique feugiat metus. Donec vitae pharetra nisl, eget porta lectus. Integer non bibendum eros, a iaculis nulla.
+:::{.sbsaction}
+Запустите этот код и введите своё имя по запросу:
+:::
 
+```python
+name = input("Как вас зовут? ")
+print("Привет,", name)
+```
 
-#### Подведение итогов
+:::{.sbsaction}
+Для чисел преобразуйте ввод с помощью `int()` или `float()`:
+:::
 
-Это последний четвёртый слайд.
+```python
+age = int(input("Сколько вам лет? "))
+print("В следующем году вам будет", age + 1)
+```
+
+:::{.sbstask}
+Напишите программу, которая запрашивает два числа и выводит их сумму.
+:::
+
+#### Создаём калькулятор
+
+Теперь объединим всё в простой калькулятор.
+
+:::{.sbsaction}
+Этот калькулятор складывает два числа, введённых пользователем:
+:::
+
+```python
+num1 = float(input("Введите первое число: "))
+num2 = float(input("Введите второе число: "))
+
+result = num1 + num2
+print("Результат:", result)
+```
+
+:::{.sbsaction}
+Расширьте калькулятор, чтобы он поддерживал все четыре операции:
+:::
+
+```python
+num1 = float(input("Введите первое число: "))
+num2 = float(input("Введите второе число: "))
+operation = input("Выберите операцию (+, -, *, /): ")
+
+if operation == "+":
+    result = num1 + num2
+elif operation == "-":
+    result = num1 - num2
+elif operation == "*":
+    result = num1 * num2
+elif operation == "/":
+    result = num1 / num2
+else:
+    result = "Неизвестная операция"
+
+print("Результат:", result)
+```
+
+:::{.sbstask}
+Добавьте в калькулятор возведение в степень (`**`) и целочисленное деление (`//`).
+:::
+
+#### Задание: калькулятор ИМТ
+
+Проверьте свои навыки на практической задаче.
+
+:::{.sbstask}
+Напишите калькулятор ИМТ (индекса массы тела):
+
+1. Запросите у пользователя вес в килограммах.
+2. Запросите у пользователя рост в метрах.
+3. Вычислите ИМТ по формуле: `ИМТ = вес / (рост ** 2)`
+4. Выведите результат, округлённый до 2 знаков после запятой.
+
+Используйте `round(значение, 2)` для округления числа.
+:::
+
+```python
+# Ваше решение
+```
 
 :::
+
 
 
 ## Советы по разметке

@@ -136,6 +136,52 @@ led.on()
 :::
 ````
 
+## Page-by-Page Tutorial (`pagebypage`)
+
+The `pagebypage` block allows you to split instructions for learners into a set of paginated slides. Each page starts with a heading of the configured level (default: level 3).
+
+### Configuration
+
+By default, pages are split at level 3 headings (`###`). You can change this with the `headers-level` option in the document's YAML header or in `_quarto.yml`:
+
+```yaml
+stepbystep:
+  headers-level: 4
+```
+
+### Markup
+Wrap the entire tutorial content in a block with the .pagebypage class. Each page must start with a heading of the configured level:
+
+```markdown
+:::{.pagebypage}
+
+### First Page
+
+Content of the first page...
+
+:::{.sbsaction}
+First action.
+:::
+
+### Second Page
+
+Content of the second page...
+
+:::{.sbstask}
+Task for independent work.
+:::
+
+:::
+```
+
+### Navigation
+
+The tutorial provides a navigation menu with numbered page indicators and "Previous"/"Next" buttons. Completed pages are marked visually.
+
+### Combining with Other Elements
+
+Inside .pagebypage you can use any other stepbystep elements: .sbsaction, .sbstask, .hl-container, element, pin, hs, and sbshs.
+
 ## Markup Tips
 
 1. **Identifier uniqueness.** Names in the `hl` parameter of the `element`, `pin`, and `hl` shortcodes must be unique.

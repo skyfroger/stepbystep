@@ -221,6 +221,150 @@ led.on()
 :::
 ````
 
+## Page-by-Page Tutorial
+
+The `.pagebypage` block splits instructions into slides. Each slide starts with a heading. Navigation is available via the menu and buttons.
+
+::::{.pagebypage}
+
+### Welcome to Python
+
+Python is a powerful and easy-to-learn programming language. In this tutorial, you will write your first calculator program.
+
+:::{.sbsaction}
+Open the code editor below and read the sample code carefully.
+
+
+```python
+# This is a comment - Python ignores it
+print("Hello, Python!")
+```
+
+:::
+
+### Variables and Numbers
+
+Variables store data for later use. In Python, you create a variable by assigning a value with =.
+
+:::{.sbsaction}
+Study how variables a and b store numbers:
+
+```python
+a = 15
+b = 4
+
+print("a =", a)
+print("b =", b)
+```
+
+:::
+
+:::{.sbsaction}
+Python supports standard arithmetic operations:
+
+```python
+a = 15
+b = 4
+
+print("Sum:", a + b)        # Addition
+print("Difference:", a - b)  # Subtraction
+print("Product:", a * b)     # Multiplication
+print("Quotient:", a / b)    # Division
+print("Power:", a ** b)      # Exponentiation
+```
+:::
+
+:::{.sbstask}
+Change the values of a and b to 20 and 3, then run the code again.
+:::
+
+### User Input
+
+The input() function asks the user to enter data. By default, it returns a string.
+
+:::{.sbsaction}
+Run this code and enter your name when prompted:
+
+```python
+name = input("What is your name? ")
+print("Hello,", name)
+```
+:::
+
+:::{.sbsaction}
+For numbers, convert the input using int() or float():
+
+```python
+age = int(input("How old are you? "))
+print("Next year you will be", age + 1)
+```
+:::
+
+:::{.sbstask}
+Write a program that asks for two numbers and prints their sum.
+:::
+
+
+### Building the Calculator
+
+Now combine everything into a simple calculator.
+
+:::{.sbsaction}
+This calculator adds two numbers entered by the user:
+
+```python
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+
+result = num1 + num2
+print("Result:", result)
+```
+:::
+
+:::{.sbsaction}
+Extend the calculator to support all four operations:
+
+```python
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+operation = input("Choose operation (+, -, *, /): ")
+
+if operation == "+":
+    result = num1 + num2
+elif operation == "-":
+    result = num1 - num2
+elif operation == "*":
+    result = num1 * num2
+elif operation == "/":
+    result = num1 / num2
+else:
+    result = "Unknown operation"
+
+print("Result:", result)
+```
+:::
+
+:::{.sbstask}
+Add exponentiation (**) and integer division (//) to the calculator.
+:::
+
+### Challenge: BMI Calculator
+
+Test your skills with a practical task.
+
+:::{.sbstask}
+Write a BMI (Body Mass Index) calculator:
+
+1. Ask the user for weight in kilograms.
+2. Ask the user for height in meters.
+3. Calculate BMI using the formula: BMI = weight / (height ** 2)
+4. Print the result rounded to 2 decimal places.
+
+Use round(value, 2) to round the number.
+:::
+
+::::
+
 ## Markup Tips
 
 1. **Identifier uniqueness.** Names in the `hl` parameter of the `element`, `pin`, and `hl` shortcodes must be unique. Duplication will cause arrows and highlighting to malfunction.
