@@ -3,11 +3,15 @@
 local loc_data = {
   en = {
     task = "Follow-up task",
-    done = "Done"
+    done = "Done",
+    next = "Next",
+    previous = "Previous"
   },
   ru = {
     task = "Сделайте самостоятельно",
-    done = "Сделано"
+    done = "Сделано",
+    next = "Далее",
+    previous = "Назад"
   }
 }
 -- // END OF LOCALISATION STRINGS //

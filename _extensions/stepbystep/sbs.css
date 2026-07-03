@@ -533,28 +533,54 @@ span.scheme__element:hover {
 
 .menu__item {
     display: flex;
-    font-weight: bold;
     align-items: center;
     justify-content: center;
     margin-bottom: 0;
     padding: 0.3em;
     width: 30px;
     height: 35px;
+    color: #38405f;
+    font-size: 0.9rem;
+    font-weight: bold;
     background-color: lightgray;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0 100%, 0 0);
-    /* clip-path: polygon(0% 0%, 50% 10%, 100% 0, 100% 100%, 0% 100%); */
 }
 .menu__item:hover {
     width: 35px;
 }
 
 .menu__item.active {
-    background-color: #ffb399;
+    background-color: #38405f;
+    color: white;
     width: 40px;
 }
 
 .menu__item.prev {
-    background-color: #daf9de;
+    background-color: #87bba2;
+}
+
+.pbp .navigation .pbp__button {
+    padding: 0.3em;
+    border: none;
+    border-radius: 0.5em;
+    background-color: #6470a2;
+    color: white;
+    transition: all 0.5s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.pbp .navigation .pbp__button:hover {
+    background-color: #38405f;
+    box-shadow: var(--hover-shadow);
+}
+
+.pbp__button.right {
+    align-items: flex-end;
+}
+
+.pbp__button.left {
+    align-items: flex-start;
 }

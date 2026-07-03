@@ -19,7 +19,6 @@ local content = {}
 end
 
 function createPbP(div, options)
-  quarto.log.output(options["headers-level"])
   utils.writeEnvironments()
   local tutorialContent = {}
   local currentStep = {}
@@ -77,20 +76,20 @@ function createPbP(div, options)
       <div class="navigation">
           <div>
             <button
+              class="pbp__button left"
               @click="prev"
               x-show="current !== 0"
-              x-html="stepHeaders[current - 1]"
             >
-              Prev
+              <span style="font-weight: bold;">]]..l10n("previous")..[[:</span><span x-html="stepHeaders[current - 1]"></span>
             </button>
           </div>
           <div>
             <button
+              class="pbp__button right"
               @click="next"
               x-show="current !== total - 1"
-              x-html="stepHeaders[current + 1]"
             >
-              Next
+              <span style="font-weight: bold;">]]..l10n("next")..[[:</span><span x-html="stepHeaders[current + 1]"></span>
             </button>
           </div>
         </div>]]))
