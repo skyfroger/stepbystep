@@ -46,8 +46,11 @@ function createPbP(div, options)
   end
 
   -- Открывающий тег с буквальными x-data и x-ref
-  table.insert(tutorialContent, pandoc.RawBlock("html", 
-    '<div x-data="pagebypage(' .. (stepsCount + 1) .. ','.. headersLevel ..')" x-ref="main" class="pbp">'
+  table.insert(tutorialContent, pandoc.RawBlock("html",[[
+    <div x-data="pagebypage(]] .. (stepsCount + 1) .. [[,]].. headersLevel ..[[)"
+    x-ref="main"
+    @answer-notification.stop="catchAnswers"
+    class="pbp">]]
   ))
 
   -- Меню

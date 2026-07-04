@@ -5,6 +5,7 @@ function registerAlpineComponents() {
         viewportHeight: 0,
         stepHeaders: [],
         stepEls: [],
+        taskCompletion: Array(total).fill(0),
         _resizeObserver: null,
         _activeEl: null,
         _unwatch: null,
@@ -38,6 +39,15 @@ function registerAlpineComponents() {
                     );
                 }
             });
+        },
+        catchAnswers(event) {
+            // TODO: фильтровать по типу вопроса
+            // пропускать только qselect, qinput, qgroup
+            // на остальные события не реагировать
+            if (event && event.detail.isCorrect) {
+                this.taskCompletion[this.current] =
+                    this.taskCompletion[this.current] - 1;
+            }
         },
         observeStep(index, forceRemeasure = false) {
             const el = this.stepEls[index];
