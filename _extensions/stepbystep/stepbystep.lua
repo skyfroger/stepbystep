@@ -92,7 +92,9 @@ function createPbP(div, options)
               @click="next"
               x-show="current !== total - 1"
             >
-              <span style="font-weight: bold;">]]..l10n("next")..[[:</span><span x-html="stepHeaders[current + 1]"></span>
+              <span x-show="isPageLocked(current + 1)" x-text="`🔒(${taskCompletion[current]})`"></span>
+              <span x-show="!isPageLocked(current + 1)" style="font-weight: bold;">]]..l10n("next")..[[:</span>
+              <span x-html="stepHeaders[current + 1]"></span>
             </button>
           </div>
         </div>]]))

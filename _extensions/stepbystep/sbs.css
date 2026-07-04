@@ -617,4 +617,8 @@ span.scheme__element:hover {
     .menu__item.active {
         height: 35px;
     }
+
+    .pbp .qgroup__ready .qmulti {
+        width: 90%;
+    }
 }

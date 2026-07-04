@@ -68,6 +68,17 @@ function registerAlpineComponents() {
                     this.taskCompletion[this.current] - 1;
             }
         },
+        isPageLocked(index) {
+            // special case for the first step
+            if (index === 0) return this.taskCompletion[0] !== 0;
+
+            const prevPagesCompletion = this.taskCompletion.slice(0, index);
+            const controlSum = prevPagesCompletion.reduce(
+                (acc, cur) => acc + cur,
+                0,
+            );
+            return controlSum !== 0;
+        },
         observeStep(index, forceRemeasure = false) {
             const el = this.stepEls[index];
             if (!el) return;
@@ -81,7 +92,12 @@ function registerAlpineComponents() {
             this.viewportHeight = el.scrollHeight;
         },
         next() {
-            if (this.current === this.total - 1) return;
+            // this.current + 1 - fix for bug
+            if (
+                this.isPageLocked(this.current + 1) ||
+                this.current === this.total - 1
+            )
+                return;
             this.current++;
             this.$refs.main.scrollIntoView({ behavior: "smooth" });
         },
@@ -91,7 +107,12 @@ function registerAlpineComponents() {
             this.$refs.main.scrollIntoView({ behavior: "smooth" });
         },
         go(index) {
-            if (index < 0 || index >= this.total || index === this.current)
+            if (
+                index < 0 ||
+                index >= this.total ||
+                index === this.current ||
+                this.isPageLocked(index)
+            )
                 return;
             this.current = index;
             this.$refs.main.scrollIntoView({ behavior: "smooth" });
