@@ -477,6 +477,7 @@ span.scheme__element:hover {
     position: relative;
     z-index: 2;
     padding: 1em;
+    border-top: 3px solid #38405f;
     border-radius: 0.5em;
     box-shadow:
         rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
