@@ -13,6 +13,14 @@ function registerAlpineComponents() {
             this.$nextTick(() => {
                 this.stepEls = Array.from(this.$el.querySelectorAll(".step"));
 
+                // count, how many questions each step contains
+                this.stepEls.forEach((page, index) => {
+                    const qNum = page.querySelectorAll(
+                        ".qinput__container, .qgroup__ready",
+                    ).length;
+                    this.taskCompletion[index] = qNum;
+                });
+
                 const headers = this.$el.querySelectorAll(
                     `.step h${pageHeadersLevel}`,
                 );
@@ -41,10 +49,21 @@ function registerAlpineComponents() {
             });
         },
         catchAnswers(event) {
-            // TODO: фильтровать по типу вопроса
-            // пропускать только qselect, qinput, qgroup
-            // на остальные события не реагировать
-            if (event && event.detail.isCorrect) {
+            /*
+            event.detail schema:
+            {
+                type: question type
+                isCorrect: self explanatory
+                attempts: current attempt number
+            }
+            */
+
+            // count events only from this type of questions
+            const approvedQuestionTypes = ["qgroup", "qinput", "qselect"];
+            // destructure event.detail
+            const { isCorrect, type } = event.detail;
+
+            if (isCorrect && approvedQuestionTypes.includes(type)) {
                 this.taskCompletion[this.current] =
                     this.taskCompletion[this.current] - 1;
             }
