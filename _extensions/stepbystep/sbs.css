@@ -513,6 +513,7 @@ span.scheme__element:hover {
 
 .navigation {
     display: flex;
+    gap: 0.5em;
     justify-content: space-between;
     width: 100%;
     grid-area: navigation;
@@ -579,8 +580,40 @@ span.scheme__element:hover {
 
 .pbp__button.right {
     align-items: flex-end;
+    text-align: right;
 }
 
 .pbp__button.left {
     align-items: flex-start;
+    text-align: left;
+}
+
+@media screen and (max-width: 765px) {
+    .pbp {
+        grid-template-columns: auto;
+        grid-template-rows: 35px auto;
+        grid-template-areas: "navigation" "pbp-page";
+    }
+    .pbp__menu {
+        flex-direction: row;
+        align-items: flex-end;
+        position: relative;
+        top: 0;
+        min-height: 0;
+        margin: 0 0 0 1em;
+        padding-bottom: 0;
+    }
+
+    .pbp__menu .menu__item {
+        width: 30px;
+        height: 30px;
+        clip-path: polygon(100% 0%, 100% 100%, 0 100%, 0 0, 50% 10%);
+    }
+
+    .menu__item:hover {
+        height: 35px;
+    }
+    .menu__item.active {
+        height: 35px;
+    }
 }
