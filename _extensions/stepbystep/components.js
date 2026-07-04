@@ -4,24 +4,52 @@ function registerAlpineComponents() {
         total: total,
         viewportHeight: 0,
         stepHeaders: [],
-        async init() {
-            await this.$nextTick();
-            const headers = this.$el.querySelectorAll(
-                `.step h${pageHeadersLevel}`,
-            );
-            this.stepHeaders = Array.from(headers).map((h) => h.innerHTML);
+        stepEls: [],
+        _resizeObserver: null,
+        _activeEl: null,
+        _unwatch: null,
+        init() {
+            this.$nextTick(() => {
+                this.stepEls = Array.from(this.$el.querySelectorAll(".step"));
 
-            const observer = new MutationObserver(() => {
-                this.updateHeight();
+                const headers = this.$el.querySelectorAll(
+                    `.step h${pageHeadersLevel}`,
+                );
+                this.stepHeaders = Array.from(headers).map((h) => h.innerHTML);
+
+                this._resizeObserver = new ResizeObserver((entries) => {
+                    for (const entry of entries) {
+                        this.viewportHeight =
+                            entry.borderBoxSize?.[0]?.blockSize ??
+                            entry.target.scrollHeight;
+                    }
+                });
+
+                this.observeStep(this.current);
+
+                this._unwatch = this.$watch("current", (value) => {
+                    this.observeStep(value);
+                });
+
+                // Подстраховка на догрузку шрифтов
+                if (document.fonts?.ready) {
+                    document.fonts.ready.then(() =>
+                        this.observeStep(this.current, true),
+                    );
+                }
             });
+        },
+        observeStep(index, forceRemeasure = false) {
+            const el = this.stepEls[index];
+            if (!el) return;
+            if (el === this._activeEl && !forceRemeasure) return;
 
-            observer.observe(this.$refs.viewport, {
-                attributes: true,
-                subtree: true,
-                attributeFilter: ["class"],
-            });
-
-            this.updateHeight();
+            if (this._activeEl) {
+                this._resizeObserver.unobserve(this._activeEl);
+            }
+            this._activeEl = el;
+            this._resizeObserver.observe(el);
+            this.viewportHeight = el.scrollHeight;
         },
         next() {
             if (this.current === this.total - 1) return;
@@ -34,15 +62,14 @@ function registerAlpineComponents() {
             this.$refs.main.scrollIntoView({ behavior: "smooth" });
         },
         go(index) {
-            if (index < 0 || index > total || index === this.current) return;
+            if (index < 0 || index >= this.total || index === this.current)
+                return;
             this.current = index;
+            this.$refs.main.scrollIntoView({ behavior: "smooth" });
         },
-        async updateHeight() {
-            await this.$nextTick();
-            const active = this.$el.querySelector(".step.active");
-            if (active) {
-                this.viewportHeight = active.scrollHeight;
-            }
+        destroy() {
+            this._resizeObserver?.disconnect();
+            this._unwatch?.();
         },
     }));
 }
