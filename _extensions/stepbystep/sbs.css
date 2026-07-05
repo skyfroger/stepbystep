@@ -544,7 +544,7 @@ span.scheme__element:hover {
     color: #38405f;
     font-size: 0.9rem;
     font-weight: bold;
-    background-color: lightgray;
+    background-color: #d3d3d3;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0 100%, 0 0);
@@ -555,12 +555,22 @@ span.scheme__element:hover {
 
 .menu__item.active {
     background-color: #38405f;
+    background: linear-gradient(
+        90deg,
+        rgba(56, 64, 95, 1) 0%,
+        rgba(118, 120, 153, 1) 100%
+    );
     color: white;
     width: 40px;
 }
 
 .menu__item.prev {
     background-color: #87bba2;
+    background: linear-gradient(
+        90deg,
+        rgba(135, 187, 162, 1) 0%,
+        rgba(184, 227, 205, 1) 100%
+    );
 }
 
 .pbp .navigation .pbp__button {
@@ -582,11 +592,21 @@ span.scheme__element:hover {
 .pbp__button.right {
     align-items: flex-end;
     text-align: right;
+    background: linear-gradient(
+        220deg,
+        rgba(56, 64, 95, 1) 0%,
+        rgba(118, 120, 153, 1) 100%
+    );
 }
 
 .pbp__button.left {
     align-items: flex-start;
     text-align: left;
+    background: linear-gradient(
+        135deg,
+        rgba(56, 64, 95, 1) 0%,
+        rgba(118, 120, 153, 1) 100%
+    );
 }
 
 @media screen and (max-width: 765px) {
@@ -616,6 +636,19 @@ span.scheme__element:hover {
     }
     .menu__item.active {
         height: 35px;
+        background: linear-gradient(
+            0deg,
+            rgba(56, 64, 95, 1) 0%,
+            rgba(118, 120, 153, 1) 100%
+        );
+    }
+
+    .menu__item.prev {
+        background: linear-gradient(
+            0deg,
+            rgba(135, 187, 162, 1) 0%,
+            rgba(184, 227, 205, 1) 100%
+        );
     }
 
     .pbp .qgroup__ready .qmulti {
