@@ -196,3 +196,15 @@ The following third-party libraries and modules were used in the development of 
 
 - [Alpine.js](https://alpinejs.dev) for UI reactivity. MIT license.
 - [LeaderLine](https://github.com/anseki/leader-line) for dynamic arrows. MIT license.
+
+The extension's functionality and appearance were inspired by the following projects:
+
+- [naquiz extension for Quarto](https://github.com/nareal/naquiz) - the idea of ​​using Alpine.js for a reactive interface.
+
+- [Raspberry Pi Projects](https://projects.raspberrypi.org/en) - the idea of ​​visually separating instructional steps and displaying them page by page.
+
+- [Last Minute Engineers](https://lastminuteengineers.com) - I found inspiration for the stylistic design of the microcontroller pins on this website.
+
+- [mathigon.org](https://mathigon.org/courses) - I saw highlighting elements of illustrations on course pages when hovering over text labels.
+
+Thanks to the developers of these projects.
