@@ -189,3 +189,10 @@ Inside .pagebypage you can use any other stepbystep elements: .sbsaction, .sbsta
 3. **Quotes for marker.** The `marker` parameter value in the `hs` shortcode must be enclosed in quotes, even if it is a number.
 4. **Container nesting.** For `sbshs` with code, use 4 colons (`::::`) for the outer block to avoid conflicts with inner blocks of 3 colons (`:::`).
 5. **Filter in YAML.** Don't forget to add `filters: - stepbystep` to the document header.
+
+## Credits
+
+The following third-party libraries and modules were used in the development of the extension:
+
+- [Alpine.js](https://alpinejs.dev) for UI reactivity. MIT license.
+- [LeaderLine](https://github.com/anseki/leader-line) for dynamic arrows. MIT license.
