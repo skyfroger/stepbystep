@@ -91,6 +91,19 @@ function registerAlpineComponents() {
             this._resizeObserver.observe(el);
             this.viewportHeight = el.scrollHeight;
         },
+        scrollToPageStart() {
+            const navbar = document.querySelector(
+                ".navbar, .quarto-header, header.fixed-top, nav.sticky-top",
+            );
+            const offset = navbar
+                ? navbar.getBoundingClientRect().height + 16
+                : 0;
+
+            const rect = this.$refs.main.getBoundingClientRect();
+            const top = window.scrollY + rect.top - offset;
+
+            window.scrollTo({ top, behavior: "smooth" });
+        },
         next() {
             // this.current + 1 - fix for bug
             if (
@@ -99,12 +112,12 @@ function registerAlpineComponents() {
             )
                 return;
             this.current++;
-            this.$refs.main.scrollIntoView({ behavior: "smooth" });
+            this.scrollToPageStart();
         },
         prev() {
             if (this.current === 0) return;
             this.current--;
-            this.$refs.main.scrollIntoView({ behavior: "smooth" });
+            this.scrollToPageStart();
         },
         go(index) {
             if (
@@ -115,7 +128,7 @@ function registerAlpineComponents() {
             )
                 return;
             this.current = index;
-            this.$refs.main.scrollIntoView({ behavior: "smooth" });
+            this.scrollToPageStart();
         },
         destroy() {
             this._resizeObserver?.disconnect();
