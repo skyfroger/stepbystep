@@ -190,21 +190,24 @@ Inside .pagebypage you can use any other stepbystep elements: .sbsaction, .sbsta
 4. **Container nesting.** For `sbshs` with code, use 4 colons (`::::`) for the outer block to avoid conflicts with inner blocks of 3 colons (`:::`).
 5. **Filter in YAML.** Don't forget to add `filters: - stepbystep` to the document header.
 
-## Credits
+## Acknowledgments
 
-The following third-party libraries and modules were used in the development of the extension:
+The following third-party libraries and modules were used in the development of this extension:
 
-- [Alpine.js](https://alpinejs.dev) for UI reactivity. MIT license.
-- [LeaderLine](https://github.com/anseki/leader-line) for dynamic arrows. MIT license.
+- [Alpine.js](https://alpinejs.dev) for reactive user interface. MIT License.
 
-The extension's functionality and appearance were inspired by the following projects:
+- [LeaderLine](https://github.com/anseki/leader-line) for dynamic arrows. MIT License.
 
-- [naquiz extension for Quarto](https://github.com/nareal/naquiz) - the idea of ​​using Alpine.js for a reactive interface.
+The functionality and appearance of this extension were inspired by the following projects:
 
-- [Raspberry Pi Projects](https://projects.raspberrypi.org/en) - the idea of ​​visually separating instructional steps and displaying them page by page.
+- [The naquiz extension for Quarto](https://github.com/nareal/naquiz) — the idea of using Alpine.js for reactive UI.
 
-- [Last Minute Engineers](https://lastminuteengineers.com) - I found inspiration for the stylistic design of the microcontroller pins on this website.
+- [Raspberry Pi Projects](https://projects.raspberrypi.org/en) — the idea of visually separating the stages of the instructions and displaying the steps page by page.
 
-- [mathigon.org](https://mathigon.org/courses) - I saw highlighting elements of illustrations on course pages when hovering over text labels.
+- [Last Minute Engineers](https://lastminuteengineers.com) — on this site, I got the design inspiration for displaying microcontroller pins on a web page.
 
-Thanks to the developers of these projects.
+- [mathigon.org](https://mathigon.org/courses) – I noticed on the course pages that elements in the illustrations are highlighted when the cursor hovers over labels in the text.
+
+Thank you to the developers of these projects.
+
+Translated with DeepL.com (free version)
