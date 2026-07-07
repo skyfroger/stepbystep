@@ -1,4 +1,4 @@
-function registerAlpineComponents() {
+function registerSBSComponents() {
     Alpine.data("pagebypage", (total, pageHeadersLevel = 3) => ({
         current: 0,
         total: total,
@@ -138,9 +138,9 @@ function registerAlpineComponents() {
 }
 
 if (window.Alpine) {
-    registerAlpineComponents();
+    registerSBSComponents();
 } else {
     document.addEventListener("alpine:init", () => {
-        registerAlpineComponents();
+        registerSBSComponents();
     });
 }
