@@ -49,7 +49,7 @@ function createPbP(div, options)
   table.insert(tutorialContent, pandoc.RawBlock("html",[[
     <div x-data="pagebypage(]] .. (stepsCount + 1) .. [[,]].. headersLevel ..[[)"
     x-ref="main"
-    @answer-notification.stop="catchAnswers"
+    @answer-notification="catchAnswers"
     class="pbp">]]
   ))
 
